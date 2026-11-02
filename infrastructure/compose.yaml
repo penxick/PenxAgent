@@ -1,0 +1,18 @@
+﻿services:
+  postgres:
+    image: postgres:17
+    container_name: penxagent-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: penxagent
+      POSTGRES_USER: penxagent
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - D:/PenxAgent/data/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U penxagent -d penxagent"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
